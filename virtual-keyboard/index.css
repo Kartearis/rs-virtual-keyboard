@@ -1,0 +1,33 @@
+
+
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: 40vh;
+    width: 100vw;
+    gap: 5px;
+}
+
+.keyboard .key {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.keyboard .key__up {
+    align-self: flex-start;
+}
+
+.keyboard .key__down {
+    align-self: flex-end;
+}
+
+.keyboard .key--double {
+    grid-column-end: span 2;
+}
+
+.keyboard .key--space {
+    grid-column-end: span 6;
+}

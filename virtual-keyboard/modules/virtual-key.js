@@ -19,10 +19,21 @@ export default class VirtualKey {
         language: () => this.#drawText(),
       },
     );
+    this.#setUpKey();
     this.#drawText();
   }
 
+  #setUpKey() {
+    if (this.config.classList) {
+      this.config.classList.forEach(c => this.element.classList.add(c));
+    }
+  }
+
   #drawText() {
-    this.element.innerHTML = this.config.text[this.state.language];
+    let innerMarkup = `
+        <div class="key__up">${this.config.text[this.state.language][1]}</div>
+        <div class="key__down">${this.config.text[this.state.language][0]}</div>
+    `;
+    this.element.innerHTML = innerMarkup;
   }
 }
