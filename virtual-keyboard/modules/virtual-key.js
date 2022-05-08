@@ -13,6 +13,7 @@ export default class VirtualKey {
     this.state = createState(
       {
         pressed: false,
+        locked: false,
         language: lang,
       },
       {
@@ -41,6 +42,12 @@ export default class VirtualKey {
     if (state.shift || state.capslock)
       return this.config.text[this.state.language][1];
     return this.config.text[this.state.language][0];
+  }
+
+  registerHandlers(handlers) {
+    this.element.addEventListener('mousedown', handlers.mouseDown);
+    this.element.addEventListener('mouseup', handlers.mouseUp);
+    this.element.addEventListener('mouseout', handlers.mouseOut);
   }
 
   #setUpKey() {

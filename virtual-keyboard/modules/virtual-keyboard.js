@@ -10,10 +10,12 @@ export default class VirtualKeyboard {
     schema = schema;
     keys = null;
     container = null;
+    lockedKeys = null;
 
     constructor(element, lang = 'en', targetElement) {
         this.element = element;
         this.target = targetElement;
+        this.lockedKeys = [];
         let lang_ = lang;
         if (lang === 'load') {
             // Load lang from storage
@@ -53,6 +55,46 @@ export default class VirtualKeyboard {
     registerHandlers() {
         document.addEventListener('keydown', (event) => this.#onKeyDown(event));
         document.addEventListener('keyup', (event) => this.#onKeyUp(event));
+        this.keys.forEach(key => {
+            key.registerHandlers({
+                mouseDown: (event) => this.#onMouseDown(event, key),
+                mouseUp: (event) => this.#onMouseUp(event, key),
+                mouseOut: (event) => this.#onMouseUp(event, key)
+            });
+        });
+    }
+
+    // Locked key remains pressed until any other key is pressed or it is pressed again
+    #lockKey(key) {
+        if (this.lockedKeys.includes(key)) {
+            this.#unlockKeys();
+            return;
+        }
+        key.togglePress(true);
+        this.lockedKeys.push(key);
+        if (key.config.special && key.config.special.state)
+            this.state[key.config.special.state] = true;
+    }
+
+    #unlockKeys() {
+        if (this.lockedKeys.length === 0) return;
+        for (let key of this.lockedKeys) {
+            key.togglePress(false);
+            if (key.config.special && key.config.special.state)
+                this.state[key.config.special.state] = false;
+        }
+        this.lockedKeys = [];
+    }
+
+    #onMouseDown(event, key) {
+        this.#generalKeyDown(key);
+        // Lock the key on click if required AFTER click is processed
+        if (key.config.special && key.config.special.clicklock === true)
+            this.#lockKey(key);
+    }
+
+    #onMouseUp(event, key) {
+        this.#generalKeyUp(key);
     }
 
     #onKeyDown(event) {
@@ -62,12 +104,27 @@ export default class VirtualKeyboard {
         event.preventDefault();
         event.stopPropagation();
         key.togglePress(true);
+        this.#generalKeyDown(key);
+    }
+
+    #generalKeyDown(key) {
+        console.log(this.state.shift);
         if (key.config.special && key.config.special.state)
             this.state[key.config.special.state] = true;
         else if (key.config.special && key.config.special.action)
             this.target[key.config.special.action]();
         else if (!(key.config.special && key.config.special.toggle))
             this.target.addText(key.getValueToPrint(this.state));
+        // Any key press unlocks keys, but AFTER the press is processed
+        this.#unlockKeys();
+    }
+
+    #generalKeyUp(key) {
+        // If the key is locked it is not released on up
+        if (!this.lockedKeys.includes(key) && key.config.special && key.config.special.state)
+            this.state[key.config.special.state] = false;
+        if (key.config.special && key.config.special.toggle)
+            this.state[key.config.special.toggle] = !this.state[key.config.special.toggle];
     }
 
     #onKeyUp(event) {
@@ -77,10 +134,7 @@ export default class VirtualKeyboard {
         event.preventDefault();
         event.stopPropagation();
         key.togglePress(false);
-        if (key.config.special && key.config.special.state)
-            this.state[key.config.special.state] = false;
-        if (key.config.special && key.config.special.toggle)
-            this.state[key.config.special.toggle] = !this.state[key.config.special.toggle];
+        this.#generalKeyUp(key);
     }
 
     #checkLangChange() {

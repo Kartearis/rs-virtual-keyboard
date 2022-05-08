@@ -57,12 +57,13 @@ body {
 }
 
 .keyboard .key:hover {
-    background-color: #DFE2E2;
+    background-color: #FFBE85;
     cursor: pointer;
 }
 
 .keyboard .key:active {
     transform: scale(0.9);
+    background-color: #ff9b42;
 }
 
 .keyboard .key--pressed {

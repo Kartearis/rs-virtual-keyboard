@@ -58,7 +58,7 @@ const schema = {
         key('Quote', 'э', 'Э', '\'', '"'),
         key('Enter', 'Enter', '', 'Enter', '', ['key--double'], {replace: '\n'}),
 
-        key('ShiftLeft', 'Shift', '', 'Shift', '', ['key--double'], {state: 'shift'}),
+        key('ShiftLeft', 'Shift', '', 'Shift', '', ['key--double'], {state: 'shift', clicklock: true}),
         key('KeyZ', 'я', 'Я', 'z', 'Z'),
         key('KeyX', 'ч', 'Ч', 'x', 'X'),
         key('KeyC', 'с', 'С', 'c', 'C'),
@@ -70,7 +70,7 @@ const schema = {
         key('Period', 'ю', 'Ю', '.', '>'),
         key('Slash', '.', ',', '/', '?'),
         key('ArrowUp', '↑', '', '↑', '', undefined, {action: 'nav_up'}),
-        key('ShiftRight', 'Shift', '', 'Shift', '', ['key--double'], {state: 'shift'}),
+        key('ShiftRight', 'Shift', '', 'Shift', '', ['key--double'], {state: 'shift', clicklock: true}),
 
         key('ControlLeft', 'Ctrl', '', 'Ctrl', '', undefined, {state: 'control'}),
         key('MetaLeft', '⊞', '', '⊞', '', undefined, {state: 'meta'}),
