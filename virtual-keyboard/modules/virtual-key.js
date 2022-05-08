@@ -16,11 +16,19 @@ export default class VirtualKey {
         language: lang,
       },
       {
+        pressed: (value) => this.#onPressedChange(value),
         language: () => this.#drawText(),
       },
     );
     this.#setUpKey();
     this.#drawText();
+  }
+
+  togglePress(newValue = undefined) {
+    if (newValue !== undefined)
+      this.state.pressed = newValue;
+    else
+      this.state.pressed = !this.state.pressed;
   }
 
   #setUpKey() {
@@ -35,5 +43,10 @@ export default class VirtualKey {
         <div class="key__down">${this.config.text[this.state.language][0]}</div>
     `;
     this.element.innerHTML = innerMarkup;
+  }
+
+  #onPressedChange(value) {
+    if (value) this.element.classList.add('key--pressed');
+    else this.element.classList.remove('key--pressed');
   }
 }

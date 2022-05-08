@@ -22,6 +22,7 @@ export default class VirtualKeyboard {
         },
         {});
         this.#createKeys();
+        this.registerHandlers();
     }
 
     #createKeys() {
@@ -37,5 +38,28 @@ export default class VirtualKeyboard {
             this.container.appendChild(button);
             this.keys.push(new VirtualKey(button, keyData, this.state.language));
         }
+    }
+
+    registerHandlers() {
+        document.addEventListener('keydown', (event) => this.#onKeyDown(event));
+        document.addEventListener('keyup', (event) => this.#onKeyUp(event));
+    }
+
+    #onKeyDown(event) {
+        let code = event.code;
+        let key = this.keys.find(k => k.config.id === code);
+        if (!key) return;
+        event.preventDefault();
+        event.stopPropagation();
+        key.togglePress(true);
+    }
+
+    #onKeyUp(event) {
+        let code = event.code;
+        let key = this.keys.find(k => k.config.id === code);
+        if (!key) return;
+        event.preventDefault();
+        event.stopPropagation();
+        key.togglePress(false);
     }
 }

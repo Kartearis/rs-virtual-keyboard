@@ -65,6 +65,10 @@ body {
     transform: scale(0.9);
 }
 
+.keyboard .key--pressed {
+    background-color: #ff9b42;
+}
+
 .keyboard .key__up {
     align-self: flex-start;
 }
