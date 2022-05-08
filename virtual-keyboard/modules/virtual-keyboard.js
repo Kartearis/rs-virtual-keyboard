@@ -5,22 +5,32 @@ import VirtualKey from "./virtual-key.js";
 
 export default class VirtualKeyboard {
     element = null;
+    target = null;
     state = null;
     schema = schema;
     keys = null;
     container = null;
 
-    constructor(element, lang = 'en') {
+    constructor(element, lang = 'en', targetElement) {
         this.element = element;
+        this.target = targetElement;
         let lang_ = lang;
         if (lang === 'load') {
             // Load lang from storage
         }
         else lang_ = lang;
         this.state = createState({
-            'language': lang_
+            'language': lang_,
+            'shift': false,
+            'capslock': false,
+            'control': false,
+            'alt': false
         },
-        {});
+        {
+            shift: () => this.#checkLangChange(),
+            alt: () => this.#checkLangChange(),
+            language: (value) => this.#changeLangOnAllKeys(value),
+        });
         this.#createKeys();
         this.registerHandlers();
     }
@@ -52,6 +62,12 @@ export default class VirtualKeyboard {
         event.preventDefault();
         event.stopPropagation();
         key.togglePress(true);
+        if (key.config.special && key.config.special.state)
+            this.state[key.config.special.state] = true;
+        else if (key.config.special && key.config.special.action)
+            this.target[key.config.special.action]();
+        else if (!(key.config.special && key.config.special.toggle))
+            this.target.addText(key.getValueToPrint(this.state));
     }
 
     #onKeyUp(event) {
@@ -61,5 +77,21 @@ export default class VirtualKeyboard {
         event.preventDefault();
         event.stopPropagation();
         key.togglePress(false);
+        if (key.config.special && key.config.special.state)
+            this.state[key.config.special.state] = false;
+        if (key.config.special && key.config.special.toggle)
+            this.state[key.config.special.toggle] = !this.state[key.config.special.toggle];
+    }
+
+    #checkLangChange() {
+        if (this.state.shift && this.state.alt) {
+            let currentId = this.schema.languages.indexOf(this.state.language);
+            currentId = (currentId + 1) % this.schema.languages.length;
+            this.state.language = this.schema.languages[currentId];
+        }
+    }
+
+    #changeLangOnAllKeys(value) {
+        this.keys.forEach(key => key.changeLanguage(value));
     }
 }

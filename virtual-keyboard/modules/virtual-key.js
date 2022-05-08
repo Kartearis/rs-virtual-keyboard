@@ -24,11 +24,23 @@ export default class VirtualKey {
     this.#drawText();
   }
 
+  changeLanguage(language) {
+    this.state.language = language;
+  }
+
   togglePress(newValue = undefined) {
     if (newValue !== undefined)
       this.state.pressed = newValue;
     else
       this.state.pressed = !this.state.pressed;
+  }
+
+  getValueToPrint(state) {
+    if (this.config.special && this.config.special.replace)
+      return this.config.special.replace;
+    if (state.shift || state.capslock)
+      return this.config.text[this.state.language][1];
+    return this.config.text[this.state.language][0];
   }
 
   #setUpKey() {

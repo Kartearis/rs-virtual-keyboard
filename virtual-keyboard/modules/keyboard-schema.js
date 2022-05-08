@@ -1,8 +1,17 @@
 /**
  * Keyboard layout config
+ *
+ * Each key has an id (event.code) and up to 4 values (displayed on key): l1 lower, l1 upper, l2 lower, l2 upper.
+ * Optionally key may have additional css class and/or special meaning.
+ * Special is an object with possible fields:
+ * - replace => value of this key is always this
+ * - action => this key calls this action on target element
+ * - state => this key sets this state to true on keydown and false on keyup
+ * - toggle => this key sets this state to true on first press and false on second
  */
 
 const schema = {
+    languages: ['ru', 'en'],
     keys: [
         key('Backquote', 'ё', 'Ё', '`', '~'),
         key('Digit1', '1', '!', '1', '!'),
@@ -17,9 +26,9 @@ const schema = {
         key('Digit0', '0', ')', '0', ')'),
         key('Minus', '-', '_', '-', '_'),
         key('Equal', '=', '+', '=', '+'),
-        key('Backspace', 'Backspace', '', 'Backspace', '', ['key--double']),
+        key('Backspace', 'Backspace', '', 'Backspace', '', ['key--double'], {action: 'backspace'}),
 
-        key('Tab', 'Tab', '', 'Tab', ''),
+        key('Tab', 'Tab', '', 'Tab', '', undefined, {replace: '\t'}),
         key('KeyQ', 'й', 'Й', 'q', 'Q'),
         key('KeyW', 'ц', 'Ц', 'w', 'W'),
         key('KeyE', 'у', 'У', 'e', 'E'),
@@ -33,9 +42,9 @@ const schema = {
         key('BracketLeft', 'х', 'Х', '[', '{'),
         key('BracketRight', 'ъ', 'Ъ', ']', '}'),
         key('Backslash', '\\', '/', '\\', '|'),
-        key('Delete', 'Del', '', 'Del', ''),
+        key('Delete', 'Del', '', 'Del', '', undefined, {action: 'delete'}),
 
-        key('CapsLock', 'CapsLock', '', 'CapsLock', '', ['key--double']),
+        key('CapsLock', 'CapsLock', '', 'CapsLock', '', ['key--double'], {toggle: 'capslock'}),
         key('KeyA', 'ф', 'Ф', 'a', 'A'),
         key('KeyS', 'ы', 'Ы', 's', 'S'),
         key('KeyD', 'в', 'В', 'd', 'D'),
@@ -47,9 +56,9 @@ const schema = {
         key('KeyL', 'д', 'Д', 'l', 'L'),
         key('Semicolon', 'ж', 'Ж', ';', ':'),
         key('Quote', 'э', 'Э', '\'', '"'),
-        key('Enter', 'Enter', '', 'Enter', '', ['key--double']),
+        key('Enter', 'Enter', '', 'Enter', '', ['key--double'], {replace: '\n'}),
 
-        key('ShiftLeft', 'Shift', '', 'Shift', '', ['key--double']),
+        key('ShiftLeft', 'Shift', '', 'Shift', '', ['key--double'], {state: 'shift'}),
         key('KeyZ', 'я', 'Я', 'z', 'Z'),
         key('KeyX', 'ч', 'Ч', 'x', 'X'),
         key('KeyC', 'с', 'С', 'c', 'C'),
@@ -60,18 +69,18 @@ const schema = {
         key('Comma', 'б', 'Б', ',', '<'),
         key('Period', 'ю', 'Ю', '.', '>'),
         key('Slash', '.', ',', '/', '?'),
-        key('ArrowUp', '↑', '', '↑', ''),
-        key('ShiftRight', 'Shift', '', 'Shift', '', ['key--double']),
+        key('ArrowUp', '↑', '', '↑', '', undefined, {action: 'nav_up'}),
+        key('ShiftRight', 'Shift', '', 'Shift', '', ['key--double'], {state: 'shift'}),
 
-        key('ControlLeft', 'Ctrl', '', 'Ctrl', ''),
-        key('MetaLeft', '⊞', '', '⊞', ''),
-        key('AltLeft', 'Alt', '', 'Alt', ''),
-        key('Space', '', '', '', '', ['key--space']),
-        key('AltRight', 'Alt', '', 'Alt', ''),
-        key('ControlRight', 'Ctrl', '', 'Ctrl', ''),
-        key('ArrowLeft', '←', '', '←', ''),
-        key('ArrowDown', '↓', '', '↓', ''),
-        key('ArrowRight', '→', '', '→', ''),
+        key('ControlLeft', 'Ctrl', '', 'Ctrl', '', undefined, {state: 'control'}),
+        key('MetaLeft', '⊞', '', '⊞', '', undefined, {state: 'meta'}),
+        key('AltLeft', 'Alt', '', 'Alt', '', undefined, {state: 'alt'}),
+        key('Space', '', '', '', '', ['key--space'], {replace: ' '}),
+        key('AltRight', 'Alt', '', 'Alt', '', undefined, {state: 'alt'}),
+        key('ControlRight', 'Ctrl', '', 'Ctrl', '', undefined, {state: 'control'}),
+        key('ArrowLeft', '←', '', '←', '',undefined, {action: 'nav_left'}),
+        key('ArrowDown', '↓', '', '↓', '',undefined, {action: 'nav_down'}),
+        key('ArrowRight', '→', '', '→', '',undefined, {action: 'nav_right'}),
     ]
 };
 

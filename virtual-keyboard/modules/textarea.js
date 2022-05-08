@@ -15,4 +15,8 @@ export default class Textarea {
         this.textarea.readOnly = true;
         this.element.appendChild(this.textarea);
     }
+
+    addText(text) {
+        this.textarea.value += text;
+    }
 }
