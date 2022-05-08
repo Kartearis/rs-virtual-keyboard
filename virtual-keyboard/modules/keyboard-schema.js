@@ -17,9 +17,9 @@ const schema = {
         key('Digit0', '0', ')', '0', ')'),
         key('Minus', '-', '_', '-', '_'),
         key('Equal', '=', '+', '=', '+'),
-        key('Backspace', 'Backspace', 'Backspace', 'Backspace', 'Backspace', ['key--double']),
+        key('Backspace', 'Backspace', '', 'Backspace', '', ['key--double']),
 
-        key('Tab', 'Tab', 'Tab', 'Tab', 'Tab'),
+        key('Tab', 'Tab', '', 'Tab', ''),
         key('KeyQ', 'й', 'Й', 'q', 'Q'),
         key('KeyW', 'ц', 'Ц', 'w', 'W'),
         key('KeyE', 'у', 'У', 'e', 'E'),
@@ -60,18 +60,18 @@ const schema = {
         key('Comma', 'б', 'Б', ',', '<'),
         key('Period', 'ю', 'Ю', '.', '>'),
         key('Slash', '.', ',', '/', '?'),
-        key('ArrowUp', '↑', '↑', '↑', '↑'),
+        key('ArrowUp', '↑', '', '↑', ''),
         key('ShiftRight', 'Shift', '', 'Shift', '', ['key--double']),
 
         key('ControlLeft', 'Ctrl', '', 'Ctrl', ''),
-        key('MetaLeft', '⊞', '⊞', '⊞', '⊞'),
-        key('AltLeft', 'Alt', 'Alt', 'Alt', 'Alt'),
+        key('MetaLeft', '⊞', '', '⊞', ''),
+        key('AltLeft', 'Alt', '', 'Alt', ''),
         key('Space', '', '', '', '', ['key--space']),
-        key('AltRight', 'Alt', 'Alt', 'Alt', 'Alt'),
-        key('ControlRight', 'Ctrl', 'Ctrl', 'Ctrl', 'Ctrl'),
-        key('ArrowLeft', '←', '←', '←', '←'),
-        key('ArrowDown', '↓', '↓', '↓', '↓'),
-        key('ArrowRight', '→', '→', '→', '→'),
+        key('AltRight', 'Alt', '', 'Alt', ''),
+        key('ControlRight', 'Ctrl', '', 'Ctrl', ''),
+        key('ArrowLeft', '←', '', '←', ''),
+        key('ArrowDown', '↓', '', '↓', ''),
+        key('ArrowRight', '→', '', '→', ''),
     ]
 };
 

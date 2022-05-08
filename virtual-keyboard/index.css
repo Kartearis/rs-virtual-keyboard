@@ -1,19 +1,68 @@
 
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #586994;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+.textarea {
+    display: block;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 100px;
+    max-height: 50vh;
+    height: min(300px, 40vh);
+    background-color: #7d869c;
+    color: #e3b505;
+}
 
 .keyboard {
     display: grid;
+    border-radius: 5px;
+    padding: 5px;
     grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    height: 40vh;
-    width: 100vw;
+    grid-template-rows: repeat(5, 1fr);
+    height: min(40vh, 300px);
+    width: 100%;
     gap: 5px;
+    background-color: #7d869c;
 }
 
 .keyboard .key {
-    background-color: lightgray;
+    background-color: #a2abab;
+    color: #0e1116;
+    border: none;
+    border-radius: 5px;
+    box-shadow: lightgray;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    transition: background-color 0.3s, transform 0.3s;
+    user-select: none;
+}
+
+.keyboard .key:hover {
+    background-color: #DFE2E2;
+    cursor: pointer;
+}
+
+.keyboard .key:active {
+    transform: scale(0.9);
 }
 
 .keyboard .key__up {
