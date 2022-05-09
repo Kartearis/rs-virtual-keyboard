@@ -67,6 +67,7 @@ body {
 }
 
 .keyboard .key--pressed {
+    transform: scale(0.95);
     background-color: #ff9b42;
 }
 
