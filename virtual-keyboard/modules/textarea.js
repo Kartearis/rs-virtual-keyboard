@@ -50,7 +50,7 @@ export default class Textarea {
     if (this.currentPosition > 0) {
       this.#removeCursor();
       this.#removeFromTextarea(this.currentPosition);
-      this.currentPosition += 1;
+      this.currentPosition -= 1;
       this.#addCursor();
     }
   }
@@ -66,7 +66,7 @@ export default class Textarea {
   nav_left() {
     if (this.currentPosition > 0) {
       this.#removeCursor();
-      this.currentPosition += 1;
+      this.currentPosition -= 1;
       this.#addCursor();
     }
   }

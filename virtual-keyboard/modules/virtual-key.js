@@ -48,7 +48,7 @@ export default class VirtualKey {
 
   #setUpKey() {
     if (this.config.special?.toggle !== undefined) {
-      this.config.text.keys().forEach((lang) => {
+      Object.keys(this.config.text).forEach((lang) => {
         this.config.text[lang][1] = '<div class="key__indicator"></div>';
       });
     }
