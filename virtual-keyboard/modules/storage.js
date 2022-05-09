@@ -1,20 +1,19 @@
-
-
 export default class Storage {
-    storage = window.localStorage;
-    label = "020498bc-0a65-43fb-9801-9f5e33c94e06-default";
+  storage = window.localStorage;
 
-    constructor(label, uuid = '020498bc-0a65-43fb-9801-9f5e33c94e06') {
-        this.label = uuid + '-' + label;
-    }
+  label = '020498bc-0a65-43fb-9801-9f5e33c94e06-default';
 
-    write(value) {
-        this.storage.setItem(this.label, JSON.stringify(value));
-    }
+  constructor(label, uuid = '020498bc-0a65-43fb-9801-9f5e33c94e06') {
+    this.label = `${uuid}-${label}`;
+  }
 
-    read() {
-        let val = this.storage.getItem(this.label);
-        if (val) return JSON.parse(val);
-        else return undefined;
-    }
+  write(value) {
+    this.storage.setItem(this.label, JSON.stringify(value));
+  }
+
+  read() {
+    const val = this.storage.getItem(this.label);
+    if (val) return JSON.parse(val);
+    return undefined;
+  }
 }

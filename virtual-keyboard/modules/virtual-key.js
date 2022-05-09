@@ -30,17 +30,13 @@ export default class VirtualKey {
   }
 
   togglePress(newValue = undefined) {
-    if (newValue !== undefined)
-      this.state.pressed = newValue;
-    else
-      this.state.pressed = !this.state.pressed;
+    if (newValue !== undefined) this.state.pressed = newValue;
+    else this.state.pressed = !this.state.pressed;
   }
 
   getValueToPrint(state) {
-    if (this.config.special && this.config.special.replace)
-      return this.config.special.replace;
-    if (state.shift || state.capslock)
-      return this.config.text[this.state.language][1];
+    if (this.config.special && this.config.special.replace) return this.config.special.replace;
+    if (state.shift || state.capslock) return this.config.text[this.state.language][1];
     return this.config.text[this.state.language][0];
   }
 
@@ -51,16 +47,18 @@ export default class VirtualKey {
   }
 
   #setUpKey() {
-    if (this.config.special?.toggle !== undefined)
-      for (let lang in this.config.text)
+    if (this.config.special?.toggle !== undefined) {
+      this.config.text.keys().forEach((lang) => {
         this.config.text[lang][1] = '<div class="key__indicator"></div>';
+      });
+    }
     if (this.config.classList) {
-      this.config.classList.forEach(c => this.element.classList.add(c));
+      this.config.classList.forEach((c) => this.element.classList.add(c));
     }
   }
 
   #drawText() {
-    let innerMarkup = `
+    const innerMarkup = `
         <div class="key__up">${this.config.text[this.state.language][1]}</div>
         <div class="key__down">${this.config.text[this.state.language][0]}</div>
     `;
@@ -73,6 +71,6 @@ export default class VirtualKey {
   }
 
   toggleIndicator(value) {
-    this.element.querySelector(".key__indicator")?.classList[value ? 'add' : 'remove']("active");
+    this.element.querySelector('.key__indicator')?.classList[value ? 'add' : 'remove']('active');
   }
 }
