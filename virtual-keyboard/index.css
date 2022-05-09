@@ -79,6 +79,18 @@ body {
     align-self: flex-end;
 }
 
+.keyboard .key__indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid #0e1116;
+    background-color: transparent;
+}
+
+.keyboard .key__indicator.active {
+    background-color: #ff9b42;
+}
+
 .keyboard .key--double {
     grid-column-end: span 2;
 }

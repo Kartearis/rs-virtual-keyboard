@@ -51,6 +51,9 @@ export default class VirtualKey {
   }
 
   #setUpKey() {
+    if (this.config.special?.toggle !== undefined)
+      for (let lang in this.config.text)
+        this.config.text[lang][1] = '<div class="key__indicator"></div>';
     if (this.config.classList) {
       this.config.classList.forEach(c => this.element.classList.add(c));
     }
@@ -67,5 +70,9 @@ export default class VirtualKey {
   #onPressedChange(value) {
     if (value) this.element.classList.add('key--pressed');
     else this.element.classList.remove('key--pressed');
+  }
+
+  toggleIndicator(value) {
+    this.element.querySelector(".key__indicator")?.classList[value ? 'add' : 'remove']("active");
   }
 }

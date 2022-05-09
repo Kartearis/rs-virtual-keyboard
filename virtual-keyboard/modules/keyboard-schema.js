@@ -7,7 +7,8 @@
  * - replace => value of this key is always this
  * - action => this key calls this action on target element
  * - state => this key sets this state to true on keydown and false on keyup
- * - toggle => this key sets this state to true on first press and false on second
+ * - toggle => this key sets this state to true on first press and false on second. Keys with toggle will ignore upper
+ * values and display indicator instead
  */
 
 const schema = {

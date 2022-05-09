@@ -32,6 +32,7 @@ export default class VirtualKeyboard {
             shift: () => this.#checkLangChange(),
             alt: () => this.#checkLangChange(),
             language: (value) => this.#changeLangOnAllKeys(value),
+            capslock: (value) => this.keys.find(x => x.config.special?.toggle === 'capslock')?.toggleIndicator(value)
         });
         this.#createKeys();
         this.registerHandlers();
