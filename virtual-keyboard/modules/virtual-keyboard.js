@@ -2,6 +2,7 @@
 import createState from "./reactive-state.js";
 import schema from "./keyboard-schema.js";
 import VirtualKey from "./virtual-key.js";
+import Storage from "./storage.js";
 
 export default class VirtualKeyboard {
     element = null;
@@ -11,16 +12,23 @@ export default class VirtualKeyboard {
     keys = null;
     container = null;
     lockedKeys = null;
+    langStorage = null;
 
     constructor(element, lang = 'en', targetElement) {
         this.element = element;
         this.target = targetElement;
+        this.langStorage = new Storage('language');
         this.lockedKeys = [];
         let lang_ = lang;
         if (lang === 'load') {
-            // Load lang from storage
+            let l = this.langStorage.read();
+            if (l)
+                lang_ = l;
+            else {
+                lang_ = 'en';
+                this.langStorage.write(lang_);
+            }
         }
-        else lang_ = lang;
         this.state = createState({
             'language': lang_,
             'shift': false,
@@ -31,7 +39,7 @@ export default class VirtualKeyboard {
         {
             shift: () => this.#checkLangChange(),
             alt: () => this.#checkLangChange(),
-            language: (value) => this.#changeLangOnAllKeys(value),
+            language: [(value) => this.#changeLangOnAllKeys(value), (value) => this.langStorage.write(value)],
             capslock: (value) => this.keys.find(x => x.config.special?.toggle === 'capslock')?.toggleIndicator(value)
         });
         this.#createKeys();
