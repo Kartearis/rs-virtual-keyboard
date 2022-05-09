@@ -14,6 +14,7 @@ export default class Textarea {
         this.textarea = document.createElement('textarea');
         this.textarea.classList.add('textarea');
         this.textarea.readOnly = true;
+        this.textarea.wrap = "off";
         this.currentPosition = 0;
         this.#addCursor();
         this.element.appendChild(this.textarea);
