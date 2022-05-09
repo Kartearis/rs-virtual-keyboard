@@ -94,7 +94,8 @@ export default class VirtualKeyboard {
     }
 
     #onMouseUp(event, key) {
-        this.#generalKeyUp(key);
+        if (key.state.pressed)
+            this.#generalKeyUp(key);
     }
 
     #onKeyDown(event) {
@@ -103,12 +104,11 @@ export default class VirtualKeyboard {
         if (!key) return;
         event.preventDefault();
         event.stopPropagation();
-        key.togglePress(true);
         this.#generalKeyDown(key);
     }
 
     #generalKeyDown(key) {
-        console.log(this.state.shift);
+        key.togglePress(true);
         if (key.config.special && key.config.special.state)
             this.state[key.config.special.state] = true;
         else if (key.config.special && key.config.special.action)
@@ -121,8 +121,11 @@ export default class VirtualKeyboard {
 
     #generalKeyUp(key) {
         // If the key is locked it is not released on up
-        if (!this.lockedKeys.includes(key) && key.config.special && key.config.special.state)
-            this.state[key.config.special.state] = false;
+        if (!this.lockedKeys.includes(key)){
+            if (key.config.special && key.config.special.state)
+                this.state[key.config.special.state] = false;
+            key.togglePress(false);
+        }
         if (key.config.special && key.config.special.toggle)
             this.state[key.config.special.toggle] = !this.state[key.config.special.toggle];
     }
@@ -133,7 +136,6 @@ export default class VirtualKeyboard {
         if (!key) return;
         event.preventDefault();
         event.stopPropagation();
-        key.togglePress(false);
         this.#generalKeyUp(key);
     }
 
